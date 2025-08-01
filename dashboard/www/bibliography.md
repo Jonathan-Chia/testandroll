@@ -1,12 +1,12 @@
-# Annotated Bibliography
-
-*Jonathan Chia - Johns Hopkins - Data Visualizations*
-
 ## Introduction
+
+*Jonathan Chia - Johns Hopkins - Data Visualizations 2025*
 
 Visualization is a core component of all Bayesian analyses, especially for visualizing priors, posteriors, and different diagnostics. 
 
 This annotated bibliography explores the Test & Roll paper, papers about best practices for Bayesian visualization, and a paper about interpreting Bayesian results for business stakeholders.
+
+Learnings from each of these papers are applied to this dashboard. See each application section.
 
 ## 1. Test & Roll: Profit-maximizing A/B tests
 
