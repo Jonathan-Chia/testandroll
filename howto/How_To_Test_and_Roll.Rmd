@@ -14,8 +14,7 @@ widescreen: yes
 library(rstan)
 library(dplyr)
 options(mc.cores = parallel::detectCores())
-setwd("~/Documents/GitHub/testandroll")
-source("nn_functions.R")
+source("../nn_functions.R")
 ```
 
 ## Thanks to Drexel & Wharton
@@ -475,10 +474,19 @@ model {
 }
 ```
 
+# load stan model
+```{r}
+model <- readRDS('../dashboard/compiled_website_model.rds')
+```
+
+```{r}
+pkgbuild::has_build_tools(debug = TRUE)
+```
+
 
 ## Fit Stan model to past experiments
-```{r, include=TRUE, cashe=TRUE}
-m1 <- sampling(stan_model, data=expts, seed=20030601, iter=1000)
+```{r, include=TRUE, cache=TRUE}
+m1 <- sampling(model, data=expts, seed=20030601, iter=1000)
 ```
 
 ## Fitted parameters
