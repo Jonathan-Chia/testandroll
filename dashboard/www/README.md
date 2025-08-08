@@ -6,44 +6,54 @@
 
 Test & Roll (Feit & Berman, 2019) is a special Bayesian A/B testing framework aimed at **maximizing expected profit**, rather than minimizing false positives.
 
-Anytime you have an A/B Test where A and B are similar, false positives have low costs, and deploying A has a low cost, you can use Test & Roll! A false positive is when you incorrectly think the treatment performed better than control. 
+Test & Roll is flexible and can be used in a variety of A/B experiments where you are measuring a continuous variable (such as mean revenue) or a rate/percentage (such as conversion rate). 
 
-For example, you are testing new creative in an A/B test. The results for the new creative seem better, so you deploy the new creative. After measuring for a month, you realize the new creative performed the same as the old. Ugh, this is a false positive! No worries, though, because our profits remain the same. In this situation, assuming creating and deploying the new creative wasn't too costly, a false positive doesn't matter! 
+For example:
+
+* Creative tests (comparing green vs. blue ad)
+* Website tests (new website feature vs. old one)
+* Direct mail tests (send direct mail to some customers and withhold from others)
+* Email tests (like direct mail)
 
 In situations like these, Test & Roll will become your best friend. Although it is a Bayesian analysis, it's actually quite intuitive - take what we learned from previous experiments as priors, and use that to design a new A/B test. 
 
-The dashboard will walk you through each step of the process.
+The dashboard will walk you through each step of the process. 
 
 ## Steps
 
 ### 1. <a href="#" onclick="Shiny.setInputValue('nav_click', 'survey_tab', {priority: 'event'}); return false;">Survey Tab</a>
 
-Take the survey to see if your A/B test can be framed using Test & Roll.
+Take the survey, and the **dashboard will update based on your needs** or will tell you if Test & Roll should not be applied for your use case.
 
-Examples of Test & Roll A/B Tests:
+Todo:
 
-* Testing new vs. old creative
-* Testing new website feature vs. old website feature
-* Direct mail A/B tests
-* Email campaign A/B tests
+* need to add more survey questions to this
 
-What if my false positive is costly though? 
+3 different parts to this dashboard:
 
-* Test & Roll can be adjusted to account for this cost. We are working on another dashboard for this scenario. Stay tuned. You can read Section 4 in the paper for more details.
+1. Website example (conversion rate)
+2. Display ads (revenue)
+3. Catalog ads (revenue but different priors)
 
-What if I have more than one treatment? 
+4. Bonus: Website example (conversion rate with different priors)?
 
-* Test & Roll can be expanded to multiple treatments, but is more complicated and is out of the scope of this dashboard.
+## 2. <a href="#" onclick="Shiny.setInputValue('nav_click', 'crash_course_tab', {priority: 'event'}); return false;">Crash Course Tab</a>
 
-## 2. Set up Priors
+You will need to understand the intuition behind Test & Roll before running the calculator.
+
+Don't worry, we will skip over the heavy math - you can read the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875) for that. 
+
+## 3. <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', {priority: 'event'}); return false;">Priors Tab</a>
 
 Input your previous experiment results to help calculate optimal sample sizes for your next experiment.
 
-## 3. Calculate the Optimal Sample Size
+Note: Due to the limited compute power of shiny apps environment, if you want to run a Bayesian meta analysis of previous experiments, you will have to run it on your local machine.
+
+## 4. <a href="#" onclick="Shiny.setInputValue('nav_click', 'sample_size_tab', {priority: 'event'}); return false;">Sample Size Tab</a>
 
 Calculate optimal sample size, and then run your experiment.
 
-## 4. Examine A/B Test Results
+## 5. <a href="#" onclick="Shiny.setInputValue('nav_click', 'results_tab', {priority: 'event'}); return false;">Results Tab</a>
 
 After the experiment is run, input and examine your results.
 
