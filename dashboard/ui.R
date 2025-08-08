@@ -68,7 +68,9 @@ ui <- page_navbar(
   ),
   nav_panel(
     title = 'Crash Course',
-    value = 'crash_course_tab'
+    value = 'crash_course_tab',
+    includeMarkdown("www/crash_course.md")
+    
   ),
   nav_panel(
     title='Priors',
