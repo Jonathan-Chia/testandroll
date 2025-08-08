@@ -17,4 +17,11 @@ server <- function(input, output, session) {
   observeEvent(input$nav_click, {
     updateNavbarPage(session, "main_nav", selected = input$nav_click)
   })
+  
+  observe({
+    mu <- input$mu
+    
+    s <- mu*(1-mu)
+    updateNumericInput(session, "s", value = s)
+  })
 }
