@@ -56,8 +56,3 @@ Calculate optimal sample size, and then run your experiment.
 ## 5. <a href="#" onclick="Shiny.setInputValue('nav_click', 'results_tab', {priority: 'event'}); return false;">Results Tab</a>
 
 After the experiment is run, input and examine your results.
-
-## Resources
-
-
-## Sources
