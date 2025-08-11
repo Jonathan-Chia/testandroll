@@ -1,50 +1,62 @@
 ## Introduction
 
-The best way to understand Test & Roll is to see it in action.
-
-This section walks through an example A/B test design using a hypothesis test and then compares it to Test & Roll. 
+The best way to grasp Test & Roll is to watch it boost [profit](#more-profit).
 
 ## Email A/B Test
 
-You have designed a new email with better headers and images and want to test its performance versus the current design.
+You have designed a new image for your upcoming email campaign and want to test its performance versus the original design.
 
-You have about 40k customers available to send emails to.
+<table style="width: 100%; table-layout: fixed;">
+  <tr>
+    <th style="width: 50%; text-align: center;">Test</th>
+    <th style="width: 50%; text-align: center;">Control</th>
+  </tr>
+  <tr>
+    <td style="text-align: center;">
+      <img src="green_email.png" style="width:100px;">
+    </td>
+    <td style="text-align: center;">
+      <img src="blue_email.png" style="width:100px;">
+    </td>
+  </tr>
+</table>
 
-What is your optimal sample size - how many people should you send the new email vs. the old email to detect a statistically significant difference (wasn't just from random chance)? 
+You have 40,000 customers to email.  
 
-Ideally, you will only need to test on a smaller subset of this 40k, and then you can deploy the best email design to the rest. 
+How many should get the test ad vs. the control ad to detect a real difference — not a random difference?  
 
-Let's run a hypothesis test!
+With a hypothesis test, you can often use only part of the 40,000 for testing, then send the winner to the rest.  
 
-## Hypothesis Test
+## Hypothesis Test  
 
-You use the following inputs in the hypothesis test calculator: 
+Inputs for the calculator:  
 
-* confidence = 0.95: this keeps our false positives low (type I error)
-* power = 0.80: this keeps our false negatives low (type II error)
-* baseline control email conversion rate = 68%: how we expect control to perform
-* lift = 2%: we want to detect 2% or better lift in conversion rates
-* \(s\) = 0.466: the expected standard deviation of the data within the experiment
+| Metric                          | Value  | Explanation                                              |
+|---------------------------------|--------|----------------------------------------------------------|
+| Confidence                      | 0.95   | Higher confidence lowers false positives (Type I error)                    |
+| Power                           | 0.80   | Higher Power lowers false negatives (Type II error)                   |
+| Baseline Conversion Rate        | 68%    | Expected control performance                             |
+| Lift                            | 2%     | Minimum improvement to detect                            |
+| $s$                           | 0.466  | Expected within-experiment standard deviation            |
 
-The calculator outputs an estimated optimal sample size of **18430**.
+**Result:** Optimal sample size is **18,430** per group.
 
-Great! You send 18430 newly designed emails to the test group, and then send 18430 to the control group. That leaves 3140 people that we can send the best email to. 
+That leaves 3,140 customers to send the best-performing email to after testing.  
 
-After a month, you find that the newly designed emails had a 1% conversion rate lift, but it is not statistically significant (could just be random chance that it did better).
+After a month, the new design shows a 1% lift—**not statistically significant**.  
 
-What should you do now? Keep the current design? Extend the test longer? Run another test with a smaller detectable lift percentage? 
+Now what? Keep the current design? Extend the test? Try again for a smaller detectable lift?  
 
-It doesn't cost you to deploy the new design and performance would be about the same, so should you just deploy it? 
+If switching costs nothing and performance is the same, maybe just deploy it.  
 
-As you can see, hypothesis testing doesn't answer the following questions:
-
-* What if recommended sample size is larger than available population?   
-* Which treatment should be deployed if the difference is non-significant? 
-* False positives (we send out the new design when it in reality will perform the same as current design) does not reduce profit in this setting. Why control them?
+This is where hypothesis testing leaves questions unanswered:  
+* What if the recommended sample size is bigger than your population?  
+* Which version to deploy if the result is non-significant?  
+* If false positives don’t hurt profit, why control them?  
 
 ## Test & Roll is Built Different
 
-Test & Roll adjusts the hypothesis testing framework to focus on profit instead of false positives. Let's use Test & Roll instead of the hypothesis test design above.
+Let's use Test & Roll instead of the hypothesis test design above.
 
 ### Test
 
@@ -61,38 +73,37 @@ Maximize combined profit for test stage and the roll stage.
 
 Inputs:
 
-* \(N\): 40k: total available population
-* \(s\): 0.466: the expected standard deviation of the data within the experiment
-* \(\sigma\): 0.03: variation in performance across different past treatments
+| Metric | Value  | Description                                                  |
+|--------|--------|--------------------------------------------------------------|
+| $N$    | 40k    | Total available population                                   |
+| $s$    | 0.466  | Expected standard deviation of the data within the experiment |
+| $\sigma$ | 0.03 | Variation in performance across different past treatments    |
 
 These are input into the Test & Roll profit-maximizing sample size formula:
 
-$$
-n_1 = n_2 =
-\sqrt{\frac{N}{4}\left( \frac{s}{\sigma} \right)^2 +
-\left( \frac{3}{4} \left( \frac{s}{\sigma} \right)^2 \right)^2 }
-- \frac{3}{4} \left(\frac{s}{\sigma} \right)^2
-$$
+$$n_1 = n_2 = \sqrt{\frac{N}{4}\left( \frac{s}{\sigma} \right)^2 + \left( \frac{3}{4} \left( \frac{s}{\sigma} \right)^2  \right)^2 } -  \frac{3}{4} \left(\frac{s}{\sigma} \right)^2$$
 
-The outputted sample size is **1382**. That leaves us with 38618 customers that we can email with the best design. 
+**Result**: Optimal sample size is **1382**.
 
-## Test & Roll = More Profit
-
-The authors demonstrate that Test & Roll earns more profit than Hypothesis Testing in 3 different experiments below. 
-
-![1](dashboard/www/website_test_results.png)
-
-![2](dashboard/www/results-table.png)
-
-![3](dashboard/www/catalog_results.png)
-
-See the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875) for more info.
+That leaves 38,618 customers to send the best-performing email to after testing.  
 
 ## Next Steps
 
-Finding the optimal sample size for Test & Roll is easy! 
+Finding the optimal sample size for Test & Roll is easy once you have $\sigma$ and $s$.
 
-Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', {priority: 'event'}); return false;">Priors Tab</a>.
+Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', {priority: 'event'}); return false;">Priors Tab</a> for help with this!
+
+## More Profit
+
+The authors demonstrate that Test & Roll earns more profit than Hypothesis Testing in 3 different experiments below. 
+
+![1](/cloud/project/dashboard/www/website_test_results.png)
+
+![2](/cloud/project/dashboard/www/display_results.png)
+
+![3](/cloud/project/dashboard/www/catalog_results.png)
+
+See the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875) for more info.
 
 ## Resources
 
