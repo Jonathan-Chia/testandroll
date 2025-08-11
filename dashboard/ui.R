@@ -3,6 +3,8 @@ library(shiny)
 library(bslib)
 library(bsicons)
 
+source('/cloud/project/dashboard/priors/priors_equal_mu.R')
+
 business_questions <- c(
   "Primary Goal: Main objective is to maximize expected profit (or another business KPI like revenue, conversions) rather than just statistical significance.",
   "Decision Rule: You are willing to choose the best-performing variant after testing, even if it doesn’t meet traditional p-value thresholds."
@@ -26,6 +28,24 @@ sequential_questions <- c(
 
 # Define the UI using bslib
 ui <- page_navbar(
+    tags$head(tags$style(HTML("
+    /* Override helpText defaults */
+    .help-block {
+      font-size: 1rem !important;
+      font-weight: normal !important;
+      color: inherit !important;
+      margin-bottom: 4px;
+    }
+    /* Make sure math inherits these styles */
+    .help-block .MathJax {
+      font-size: inherit !important;
+    }
+      /* Override for card headers (more specific) */
+    .card-header .help-block {
+      font-size: 1.25rem !important;
+      font-weight: bold !important;
+    }
+  "))),
   title = "Test & Roll Calculator",
   id='main_nav',
   # Theme specification - choose one of these:
@@ -46,7 +66,7 @@ ui <- page_navbar(
   nav_panel(
     title = "Start",
     value='start',
-      includeMarkdown("www/README.md")
+      includeMarkdown("/cloud/project/dashboard/www/README.md")
   ),
   nav_panel(
     title = "Survey",
@@ -69,12 +89,26 @@ ui <- page_navbar(
   nav_panel(
     title = 'Crash Course',
     value = 'crash_course_tab',
-    includeMarkdown("www/crash_course.md")
+    withMathJax(),  # add latex rendering
+    includeMarkdown("/cloud/project/dashboard/www/crash_course.md")
     
   ),
   nav_panel(
-    title='Priors',
-    value='priors_tab'
+    title='Meta Analysis',
+    value='priors_tab',
+    markdown("## Introduction"),
+    withMathJax(helpText("This tab helps you to find \\(s\\) and \\(\\sigma\\) through Bayesian meta analysis.")),
+    markdown("Inputs:
+             * Previous experiment results
+             * Priors for the previous experiment parameters
+             
+             Outputs:
+             * Formatted data
+             * Stan model file (you'll have to run this locally due to lack of compute power)
+             "),
+    markdown("## Steps"),
+    markdown("### 1. Input Previous Experiment Results"),
+    priors_equal_ui('priors_equal')
   ),
   nav_panel(
     title = 'Sample Size',
@@ -102,8 +136,16 @@ ui <- page_navbar(
       ), class = "d-flex align-items-center gap-1"),
       div(
         layout_columns(
-        numericInput("N", label=tooltip(trigger = "N","Available Population"), value = 100000),
-        numericInput("mu",label=tooltip(trigger = "μ (mu)","Average Conversion Rate across Prev Experiments"), value = 0.68),
+        numericInput("N",label='N', value = 100000) |> 
+          popover(placement='bottom',
+                  markdown('N is the total number of customers you have available, i.e. the size of your email mailing list or the the number of visits that might visit a webpage in the next month.'),
+                  plotlyOutput('N_parameter_plot', height = "300px")
+                  ),
+        numericInput("mu",label="μ (mu)", value = 0.68) |> 
+          popover(placement='bottom',
+                  markdown("μ is the average profit across previous experiments, i.e. the average click-through rate or average revenue"),
+                  plotlyOutput('mu_parameter_plot', height = "300px")
+          ),
         numericInput("sigma",tooltip(trigger = "σ (sigma)","Standard Deviation of Conversion Rates across Prev Experiments"), value = 0.03),
         numericInput('s',tooltip(trigger = "s","Standard Error of Difference in Means (approximated using μ)"), value=0),
         col_widths = c(3, 3, 3, 3)
@@ -118,7 +160,7 @@ ui <- page_navbar(
   ),
   nav_panel(
     title = "Bibliography",
-    includeMarkdown("www/bibliography.md")
+    includeMarkdown("/cloud/project/dashboard/www/bibliography.md")
   ),
   nav_panel(
     title='Testing',
