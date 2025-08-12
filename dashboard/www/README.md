@@ -45,6 +45,6 @@ After the experiment is run, input and examine your results.
 
 ## 6. Consulting
 
-Need help running your first Test & Learn? Please reach out to [Dr. Elea Feit](https://eleafeit.com/) or [Dr. Ron Berman](https://ron-berman.com/) for help.
+Need help running your first Test & Roll? Please reach out to [Dr. Elea Feit](https://eleafeit.com/) or [Dr. Ron Berman](https://ron-berman.com/) for help.
 
 Want a dashboard like this built in your company? Need help with meta analysis, MMM, geo-lift testing, or causal inference? Please reach out to [Pathway Analytics](https://pathwayanalytics.gitbook.io/blog) for consulting help.
