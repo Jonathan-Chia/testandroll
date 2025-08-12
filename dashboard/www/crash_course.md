@@ -91,7 +91,7 @@ That leaves 38,618 customers to send the best-performing email to after testing.
 
 Finding the optimal sample size for Test & Roll is easy once you have $\sigma$ and $s$.
 
-Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', {priority: 'event'}); return false;">Priors Tab</a> for help with this!
+Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', {priority: 'event'}); return false;">Meta Analysis Tab</a> for help with this!
 
 ## More Profit
 

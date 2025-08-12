@@ -150,8 +150,9 @@ server <- function(input, output, session) {
     }
   })
   
-  
-  
+  observeEvent(input$nav_click, {
+    updateNavbarPage(session, "main_nav", selected = input$nav_click)
+  })
   
   ##########
   observe({
