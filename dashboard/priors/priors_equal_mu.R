@@ -55,7 +55,8 @@ priors_equal_ui <- function(id) {
                 "Warning:",
                 "This example data is derived from analyzing 2,101 website tests from Berman et al. (2018) which
 were conducted across a wide variety of websites. Thus, this data can only provide a generalizable prior for website click-through analyses.",
-                placement = "top"
+                placement = "top",
+                options = list(trigger = 'focus')
               )
           ),
           
@@ -79,12 +80,13 @@ were conducted across a wide variety of websites. Thus, this data can only provi
                 title = "Info",
                 withMathJax(helpText("\\(\\sigma\\) is the variation between test and control within each experiment. We assign a normal distribution as the prior:")),
                 withMathJax("$$\\sigma \\sim \\mathcal{N}(0, 0.1)$$"),
-                withMathJax(helpText("and we truncate to positive values since \\(\\sigma > 0\\)."))
+                withMathJax(helpText("and we truncate to positive values since \\(\\sigma > 0\\).")),
+                options = list(trigger = 'focus')
               ), class = "d-flex align-items-center gap-1"),
         numericInput(ns('sigma_prior_mean_input'), label = withMathJax(helpText("\\(\\sigma\\) mean")), value = 0) |> 
-          popover("This should generally always be 0.", placement='right'),
+          popover("This should generally always be 0.", placement='right',options = list(trigger = 'focus')),
         numericInput(ns('sigma_prior_sd_input'), label = withMathJax(helpText("\\(\\sigma\\) sd")), value = 0.1) |> 
-          popover("You should keep this smaller to be more conservative.", placement='right'),
+          popover("You should keep this smaller to be more conservative.", placement='right',options = list(trigger = 'focus')),
         plotlyOutput(ns('sigma_prior'))
       ),
     card(
@@ -95,12 +97,13 @@ were conducted across a wide variety of websites. Thus, this data can only provi
           title = "Info",
           withMathJax(helpText("\\(\\mu\\) is the average click rate from historical tests. We assign a normal distribution as the prior:")),
           withMathJax("$$\\mu \\sim \\mathcal{N}(0.5, 0.1)$$"),
-          withMathJax(helpText("This is a moderately informative prior that assumes most websites have clickthrough rates roughly between 30-70% (within 2 SDs)."))
+          withMathJax(helpText("This is a moderately informative prior that assumes most websites have clickthrough rates roughly between 30-70% (within 2 SDs).")),
+          options = list(trigger = 'focus')
         ), class = "d-flex align-items-center gap-1"),
       numericInput(ns('mu_prior_mean_input'), label = withMathJax(helpText("\\(\\sigma\\) mean")), value = 0.5) |> 
-        popover("This should never be too close to 0 or 1.", placement='right'),
+        popover("This should never be too close to 0 or 1.", placement='right',options = list(trigger = 'focus')),
       numericInput(ns('mu_prior_sd_input'), label = withMathJax(helpText("\\(\\sigma\\) sd")), value = 0.1) |> 
-        popover("Make sure your SD doesn't cause your mean to potentially reach higher than 1 or lower than 0.", placement='right'),
+        popover("Make sure your SD doesn't cause your mean to potentially reach higher than 1 or lower than 0.", placement='right',options = list(trigger = 'focus')),
       plotlyOutput(ns('mu_prior'))
     ),
       card(
@@ -112,6 +115,7 @@ were conducted across a wide variety of websites. Thus, this data can only provi
             withMathJax(helpText("\\(\\omega\\) is the captures the variation in mean response across experiments. Use this only if you believe each of your experiments have a different base click through rate. This could be from using tests from different parts of the website (click through is different at checkout vs. in the beginning) or from having click-through rates from different websites.")),  
             markdown("We assign a normal distribution as the prior:"),
             withMathJax("$$\\omega \\sim \\mathcal{N}(0, 0.1)$$"),
+            options = list(trigger = 'focus')
           ), class = "d-flex align-items-center gap-1"),
         uiOutput(ns("omega_content")),  # Conditionally rendered
         plotlyOutput(ns('omega_prior'))
@@ -124,7 +128,8 @@ were conducted across a wide variety of websites. Thus, this data can only provi
           title = "Info",
           markdown('Press the download button to take all the priors you set, and output the right stan model architecture.'),
           markdown('From here, you will take the prepped stan data and run it through the model on your local machine.'),
-          withMathJax(helpText('Note: the stan model architecture will adjust based on whether you include \\(\\omega\\) or not.'))
+          withMathJax(helpText('Note: the stan model architecture will adjust based on whether you include \\(\\omega\\) or not.')),
+          options = list(trigger = 'focus')
         ), class = "d-flex align-items-center gap-1")
     )
     )
@@ -335,9 +340,9 @@ priors_equal_server <- function(id, data) {
       if (input$omega_switch) {
         tagList(
           numericInput(ns('omega_prior_mean_input'), label = withMathJax(helpText("\\(\\omega\\) mean")), value = 0) |> 
-            popover("This should never be too close to 0 or 1, but add truncating if you do need it to be.", placement='right'),
+            popover("This should never be too close to 0 or 1, but add truncating if you do need it to be.", placement='right',options = list(trigger = 'focus')),
           numericInput(ns('omega_prior_sd_input'), label = withMathJax(helpText("\\(\\omega\\) sd")), value = 0.1) |> 
-            popover("Generally you will want your SD to be around 0.1.", placement='right')
+            popover("Generally you will want your SD to be around 0.1.", placement='right',options = list(trigger = 'focus'))
         )
       }
     })
