@@ -3,7 +3,7 @@ library(shiny)
 library(scales)
 library(shinyWidgets)
 
-source('/cloud/project/dashboard/priors/priors_equal_mu.R')
+source('priors/priors_equal_mu.R')
 
 generate_sequence <- function(max_num) {
   sequence <- 1:19  # Always include 1-19
@@ -154,21 +154,6 @@ server <- function(input, output, session) {
   
   
   ##########
-  # Reactive expressions
-  data <- reactive({
-    rnorm(input$n)
-  })
-  
-  output$test <- renderText(expr = print(getwd()))
-  
-  # Outputs
-  output$plot <- renderPlot({
-    hist(data(), main = "Histogram of Random Data")
-  })
-  observeEvent(input$nav_click, {
-    updateNavbarPage(session, "main_nav", selected = input$nav_click)
-  })
-  
   observe({
     mu <- input$mu
     

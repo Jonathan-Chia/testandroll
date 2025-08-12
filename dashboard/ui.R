@@ -3,7 +3,7 @@ library(shiny)
 library(bslib)
 library(bsicons)
 
-source('/cloud/project/dashboard/priors/priors_equal_mu.R')
+source('priors/priors_equal_mu.R')
 
 business_questions <- c(
   "Primary Goal: Main objective is to maximize expected profit (or another business KPI like revenue, conversions) rather than just statistical significance." = "Q1",
@@ -63,7 +63,7 @@ ui <- page_navbar(
   nav_panel(
     title = "Start",
     value='start',
-      includeMarkdown("/cloud/project/dashboard/www/README.md")
+      includeMarkdown("www/README.md")
   ),
   nav_panel(
     title = "Survey",
@@ -85,7 +85,7 @@ ui <- page_navbar(
     title = 'Crash Course',
     value = 'crash_course_tab',
     withMathJax(),  # add latex rendering
-    includeMarkdown("/cloud/project/dashboard/www/crash_course.md")
+    includeMarkdown("www/crash_course.md")
     
   ),
   nav_panel(
@@ -241,10 +241,6 @@ ui <- page_navbar(
   ),
   nav_panel(
     title = "Bibliography",
-    includeMarkdown("/cloud/project/dashboard/www/bibliography.md")
-  ),
-  nav_panel(
-    title='Testing',
-    textOutput('test')
+    includeMarkdown("www/bibliography.md")
   )
 )
