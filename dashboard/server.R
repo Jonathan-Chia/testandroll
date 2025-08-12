@@ -2,6 +2,8 @@
 library(shiny)
 library(scales)
 library(shinyWidgets)
+library(tibble)
+library(dplyr)
 
 source('priors/priors_equal_mu.R')
 
@@ -262,10 +264,13 @@ server <- function(input, output, session) {
       )
   })
   
+  n_star <- eventReactive(input$calculate, {
+    test_size_nn(N=input$N, s=input$s, mu=input$mu, sigma=input$sigma)
+  })
+  
   profit_rdf <- eventReactive(input$calculate, {
     n <- generate_sequence(input$N/2)
     out <- NULL
-    n_star <- test_size_nn(N=input$N, s=input$s, mu=input$mu, sigma=input$sigma)
     for (i in 1:length(n)) {
       out <- rbind(out, test_eval_nn(n=c(n[i], n[i]), N=input$N, s=input$s, mu=input$mu, sigma=input$sigma))
     }
@@ -273,8 +278,7 @@ server <- function(input, output, session) {
   })
   
   best_profit_rdf <- eventReactive(input$calculate, {
-    n_star <- test_size_nn(N=input$N, s=input$s, mu=input$mu, sigma=input$sigma)
-    best_out <- test_eval_nn(n=n_star, N=input$N, s=input$s, mu=input$mu, sigma=input$sigma)
+    best_out <- test_eval_nn(n=n_star(), N=input$N, s=input$s, mu=input$mu, sigma=input$sigma)
   })
   
   output$optimal_sample_size_plot <- renderPlotly({
@@ -320,14 +324,14 @@ server <- function(input, output, session) {
       ) %>%
 
       # Add vertical line for optimal n_star
-      add_segments(x = n_star, xend = n_star,
+      add_segments(x = n_star(), xend = n_star(),
                    y = min(profit_rdf()$profit), yend = max(profit_rdf()$profit),
                    line = list(color = 'orange', dash = 'dot'), name = 'Optimal n*',
                    hoverinfo = 'none') %>%
       
       # Add annotation for n_star
-      add_annotations(x = n_star, y = best_profit_rdf()$profit + (profit_rdf()$profit_perfect[1]-profit_rdf()$profit_rand[1])/100,
-                      text = paste0("n*=", format(round(n_star), big.mark=",")),
+      add_annotations(x = n_star(), y = best_profit_rdf()$profit + (profit_rdf()$profit_perfect[1]-profit_rdf()$profit_rand[1])/100,
+                      text = paste0("n*=", format(round(n_star()), big.mark=",")),
                       xanchor = 'left', showarrow = FALSE) %>%
       
       # Layout adjustments

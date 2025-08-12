@@ -97,11 +97,11 @@ Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', 
 
 The authors demonstrate that Test & Roll earns more profit than Hypothesis Testing in 3 different experiments below. 
 
-![1](/cloud/project/dashboard/www/website_test_results.png)
+![1](website_test_results.png)
 
-![2](/cloud/project/dashboard/www/display_results.png)
+![2](display_results.png)
 
-![3](/cloud/project/dashboard/www/catalog_results.png)
+![3](catalog_results.png)
 
 See the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3274875) for more info.
 

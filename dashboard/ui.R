@@ -2,6 +2,8 @@
 library(shiny)
 library(bslib)
 library(bsicons)
+library(tibble)
+library(dplyr)
 
 source('priors/priors_equal_mu.R')
 

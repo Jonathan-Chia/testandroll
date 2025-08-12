@@ -5,6 +5,8 @@ library(shinyWidgets)
 library(DT)
 library(plotly)
 library(glue)
+library(tibble)
+library(dplyr)
 
 # Source the UI and server components
 source("dashboard/ui.R")
