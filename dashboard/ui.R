@@ -132,26 +132,40 @@ ui <- page_navbar(
         p("the profit-maximizing sample size is:"),
         withMathJax("$$n_1 = n_2 = \\sqrt{\\frac{N}{4}\\left( \\frac{s}{\\sigma} \\right)^2 + \\left( \\frac{3}{4} \\left( \\frac{s}{\\sigma} \\right)^2 \\right)^2 } - \\frac{3}{4} \\left(\\frac{s}{\\sigma} \\right)^2$$"),
         p("Input your N, μ, and σ parameters and then press the calculate button to get n1 and n2!"),
-        title='Info'
+        title='Info',
+        options = list(trigger = 'focus')
       ), class = "d-flex align-items-center gap-1"),
       div(
         layout_columns(
         numericInput("N",label='N', value = 100000) |> 
           popover(placement='bottom',
                   markdown('N is the total number of customers you have available, i.e. the size of your email mailing list or the the number of visits that might visit a webpage in the next month.'),
-                  plotlyOutput('N_parameter_plot', height = "300px")
+                  plotlyOutput('N_parameter_plot', height = "300px"),
+                  options = list(trigger = 'focus')
                   ),
         numericInput("mu",label="μ (mu)", value = 0.68) |> 
           popover(placement='bottom',
-                  markdown("μ is the average profit across previous experiments, i.e. the average click-through rate or average revenue"),
-                  plotlyOutput('mu_parameter_plot', height = "300px")
+                  markdown("μ is the average profit across previous experiments, i.e. the average click-through rate or average revenue."),
+                  plotlyOutput('mu_parameter_plot', height = "300px"),
+                  options = list(trigger = 'focus')
           ),
-        numericInput("sigma",tooltip(trigger = "σ (sigma)","Standard Deviation of Conversion Rates across Prev Experiments"), value = 0.03),
-        numericInput('s',tooltip(trigger = "s","Standard Error of Difference in Means (approximated using μ)"), value=0),
+        numericInput("sigma",label="σ (sigma)", value = 0.03) |> 
+          popover(placement='bottom',
+                  markdown("σ is the difference we expect between average profit for the two treatments, or in other words, the standard deviation for the difference in average profit between treatments."),
+                  plotlyOutput('sigma_parameter_plot', height = "300px"),
+                  options = list(trigger = 'focus')
+          ),
+        numericInput('s', label="s", value=0) |> 
+          popover(placement='bottom',
+                  markdown("s is how variable the profit is from one customer to another (approximated using μ). Hypothesis testing requires much bigger sample sizes (proportional to s^2 instead of s)."),
+                  plotlyOutput('s_parameter_plot', height = "300px"),
+                  options = list(trigger = 'focus')
+          ),
         col_widths = c(3, 3, 3, 3)
       ),
       actionButton('calculate', 'Calculate Sample Size')
-      )
+      ),
+      plotlyOutput('optimal_sample_size_plot')
     )
   ),
   nav_panel(
