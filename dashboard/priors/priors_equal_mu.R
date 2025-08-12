@@ -6,7 +6,7 @@ library(plotly)
 library(shinyWidgets)
 library(glue)
 
-source('../nn_functions.R')
+source('nn_functions.R')
 
 generate_syn_expt <- function(nexpt, nobs, mu, sigma, omega) {
   nobs <- matrix(nobs, nrow=nexpt, ncol=2) # equal test sizes
