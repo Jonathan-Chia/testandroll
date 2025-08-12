@@ -25,17 +25,6 @@ In situations like these, Test & Roll will become your best friend. Although it 
 
 Take the survey to see if Test & Roll fits your use-case. The dashboard will update based on your needs.
 
-Todo:
-
-* need to add more survey questions to this
-
-3 different parts to this dashboard:
-
-1. Website example (conversion rate)
-2. Catalog ads (revenue but different priors)
-
-4. Bonus: Website example (conversion rate with different priors)?
-
 ## 2. <a href="#" onclick="Shiny.setInputValue('nav_click', 'crash_course_tab', {priority: 'event'}); return false;">Crash Course Tab</a>
 
 You will need to understand the intuition behind Test & Roll before running the calculator.

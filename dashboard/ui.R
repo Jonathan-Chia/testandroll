@@ -6,24 +6,21 @@ library(bsicons)
 source('/cloud/project/dashboard/priors/priors_equal_mu.R')
 
 business_questions <- c(
-  "Primary Goal: Main objective is to maximize expected profit (or another business KPI like revenue, conversions) rather than just statistical significance.",
-  "Decision Rule: You are willing to choose the best-performing variant after testing, even if it doesn’t meet traditional p-value thresholds."
+  "Primary Goal: Main objective is to maximize expected profit (or another business KPI like revenue, conversions) rather than just statistical significance." = "Q1",
+  "Decision Rule: You are willing to choose the best-performing variant after testing, even if it doesn’t meet traditional p-value thresholds." = "Q2"
 )
 test_design_questions <- c(
-  "Available Population: You know the total available population you could treat.",
-  "Variants: You are comparing two variants (A/B test)."
+  "Available Population: You know the total available population you could treat." = "Q1",
+  "Variants: You are comparing two variants (A/B test)." = "Q2"
 )
 measurement_questions <- c(
-  "Outcome Metric: Your key metric is either continuous (e.g., revenue per user) or a percentage/rate (e.g., conversion).",
-  "Bayesian Prior: You have historical data or domain knowledge to form a prior belief about variant performance.",
-  "Immediate Feedback: You can measure outcomes quickly after exposure (e.g., not long-term retention studies)."
+  "Outcome Metric: Your key metric is either continuous (e.g., revenue per user) or a percentage/rate (e.g., conversion)." = 'Q1',
+  "Bayesian Prior: You have historical data or domain knowledge to form a prior belief about variant performance." = "Q2",
+  "Equal Prior Profit: Your prior expected profit for both tests is equal (e.g., testing two creatives or two features on a website)." = "Q3",
+  "Immediate Feedback: You can measure outcomes quickly after exposure (e.g., not long-term retention studies)." = "Q4"
 )
 risk_questions <- c(
-  "Type I/II Error Tradeoff: You are comfortable relaxing strict false-positive controls (Type I error) to focus on profit maximization.",
-  "Regulatory Constraints: There are no legal/regulatory barriers to choosing a variant without 'statistical significance'."
-)
-sequential_questions <- c(
-  "Repeated Use: You will run multiple sequential tests - this is not required, but Test & Roll's Bayesian approach shines most here."
+  "Regulatory Constraints: There are no legal/regulatory barriers to choosing a variant without 'statistical significance'." = 'Q1'
 )
 
 # Define the UI using bslib
@@ -71,16 +68,14 @@ ui <- page_navbar(
   nav_panel(
     title = "Survey",
     value='survey_tab',
-    h3("1. Business Objective"),
+    h3("1. Objective"),
     checkboxGroupInput('surveyboxes1', label = '', choices=business_questions, width = '100%'),
     h3("2. Test Design"),
     checkboxGroupInput('surveyboxes2', label = '', choices=test_design_questions, width = '100%'),
-    h3("3. Measurement and Data"),
+    h3("3. Data"),
     checkboxGroupInput('surveyboxes3', label = '', choices=measurement_questions, width = '100%'),
-    h3("4. Risk Appetite"),
+    h3("4. Constraints"),
     checkboxGroupInput('surveyboxes4', label = '', choices=risk_questions, width = '100%'),
-    h3("5. Sequential Testing"),
-    checkboxGroupInput('surveyboxes4', label = '', choices=sequential_questions, width = '100%'),
     layout_columns(
     actionButton('survey_button', label='Submit Survey'),
     col_widths = 6
@@ -170,7 +165,79 @@ ui <- page_navbar(
   ),
   nav_panel(
     title='Results',
-    value='results_tab'
+    value='results_tab',
+    page_fluid(
+      card(
+        card_header(
+          div(style = "display: flex; justify-content: space-between; align-items: center;",
+              span("Upload Your Test Results with Same Format as Example", style = "font-weight: bold; font-size: 1.25rem;"),
+              fileInput("test_results_file", NULL, accept = ".csv", buttonLabel = "Upload Test Results CSV")
+          )
+        ),
+        card_body(
+          layout_columns(
+            col_widths = c(6, 6),
+            
+            # Left: Example data
+            card(
+              card_header("Example Results"),
+              DTOutput("example_results"),
+              actionButton('use_example', label='Use Example Results') |>
+                popover(
+                  "Warning:",
+                  "This is simulated data that you can use to understand how the rest of the tab works.",
+                  placement = "top",
+                  options = list(trigger = 'focus')
+                )
+            ),
+            
+            # Right: Placeholder for uploaded data
+            card(
+              card_header("Your Data"),
+              DTOutput("user_results"),
+              actionButton('examine_results', label='Examine Results')
+            )
+          )
+        )),
+      card(
+        card_header(
+          span("Results", style = "font-weight: bold; font-size: 1.25rem;"),
+          popover(
+            bsicons::bs_icon("question-circle", class='ms-auto'),
+            title = "Info",
+            withMathJax(helpText(
+              HTML("
+  <h4><b>Bayesian Uplift & Loss Calculation</b></h4>
+  
+  <b>Expected Uplift</b> (when choosing A over B):
+  $$\\text{Uplift} = \\frac{Y_A - Y_B}{Y_B}$$
+  <ul>
+    <li>Positive value means A performs better than B</li>
+    <li>95% Credible Interval (HDI) shows uncertainty range</li>
+  </ul>
+  
+  <b>Expected Loss</b> (risk of choosing A if B is actually better):
+  $$\\text{Loss} = \\max\\left(\\frac{Y_B - Y_A}{Y_A}, 0\\right)$$
+  <ul>
+    <li>Quantifies potential downside of implementing A</li>
+    <li>Only counts scenarios where B > A</li>
+  </ul>
+  
+  <b>Decision Guide</b>:
+  <ul>
+    <li>When uplift > 0 and loss is small → Implement A</li>
+    <li>When uplift HDI includes 0 → Results inconclusive</li>
+    <li>When loss is large → Might want to stick with B if this is a very high stakes test</li>
+  </ul>
+  ")
+            )),
+            options = list(trigger = 'focus')
+          ), class = "d-flex align-items-center gap-1"),
+        DTOutput('results_table'),
+        plotlyOutput('results_posteriors'),
+        plotlyOutput('results_posteriors_diffs')
+      )
+    )
   ),
   nav_panel(
     title = "Bibliography",
