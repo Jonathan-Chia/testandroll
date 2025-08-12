@@ -131,6 +131,7 @@ ui <- page_navbar(
         p("the profit-maximizing sample size is:"),
         withMathJax("$$n_1 = n_2 = \\sqrt{\\frac{N}{4}\\left( \\frac{s}{\\sigma} \\right)^2 + \\left( \\frac{3}{4} \\left( \\frac{s}{\\sigma} \\right)^2 \\right)^2 } - \\frac{3}{4} \\left(\\frac{s}{\\sigma} \\right)^2$$"),
         p("Input your N, μ, and σ parameters and then press the calculate button to get n1 and n2!"),
+        p("Note: future iterations of this dashboard will allow for different prior μ"),
         title='Info',
         options = list(trigger = 'focus')
       ), class = "d-flex align-items-center gap-1"),

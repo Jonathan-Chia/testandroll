@@ -1,10 +1,10 @@
 ## Introduction
 
-The best way to grasp Test & Roll is to watch it boost [profit](#more-profit).
+The best way to grasp Test & Roll is to watch it boost [profit](#more-profit), defined as a continous outcome that is normally distributed. 
 
 ## Email A/B Test
 
-You have designed a new image for your upcoming email campaign and want to test its performance versus the original design.
+You have designed a new ad for your upcoming email campaign. Will it lift click-through rates more than the original design?
 
 <table style="width: 100%; table-layout: fixed;">
   <tr>
@@ -61,7 +61,7 @@ Let's use Test & Roll instead of the hypothesis test design above.
 ### Test
 
 Choose $n_1^*$ and $n_2^*$ customers to send the treatments.  
-Collect data on profit for both treatments.  
+Collect data on profit (or in this case the click-through rate) for both treatments.  
 
 ### Roll
 Choose a treatment to deploy to the remaining $N - n_1^* - n_2^*$ customers.
@@ -95,7 +95,7 @@ Head to the <a href="#" onclick="Shiny.setInputValue('nav_click', 'priors_tab', 
 
 ## More Profit
 
-The authors demonstrate that Test & Roll earns more profit than Hypothesis Testing in 3 different experiments below. 
+The authors demonstrate that Test & Roll earns more profit than Hypothesis Testing in 3 different experiments below. The 2nd and 3rd tests are using average revenue per customer instead of click-through rates.
 
 ![1](website_test_results.png)
 

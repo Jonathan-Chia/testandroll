@@ -21,7 +21,7 @@ generate_syn_expt <- function(nexpt, nobs, mu, sigma, omega) {
     y[e, 1] <- mean(rnorm(nobs[e,1], mean=m[1], sd=sqrt(m[1]*(1-m[1]))))
     y[e, 2] <- mean(rnorm(nobs[e,2], mean=m[2], sd=sqrt(m[2]*(1-m[2]))))
   }
-  colnames(y) <- c("A_ctr", "B_ctr")
+  colnames(y) <- c("A_profit", "B_profit")
   colnames(nobs) <- c("A_observations", "B_observations")
   list(nexpt=nexpt, y=y, nobs=nobs)
 }
@@ -79,8 +79,8 @@ were conducted across a wide variety of websites. Thus, this data can only provi
               withMathJax(helpText("\\(\\sigma\\) Prior")),
               popover(
                 bsicons::bs_icon("question-circle", class='ms-auto'),
-                title = "Info",
-                withMathJax(helpText("\\(\\sigma\\) is the variation between test and control within each experiment. We assign a normal distribution as the prior:")),
+                title = "Example",
+                withMathJax(helpText("\\(\\sigma\\) is the variation between test and control within each experiment. We assign a normal distribution as the prior for σ:")),
                 withMathJax("$$\\sigma \\sim \\mathcal{N}(0, 0.1)$$"),
                 withMathJax(helpText("and we truncate to positive values since \\(\\sigma > 0\\).")),
                 options = list(trigger = 'focus')
@@ -96,8 +96,8 @@ were conducted across a wide variety of websites. Thus, this data can only provi
         withMathJax(helpText("\\(\\mu\\) Prior (\\(\\mu\\) is used to calculate \\(s\\))")),
         popover(
           bsicons::bs_icon("question-circle", class='ms-auto'),
-          title = "Info",
-          withMathJax(helpText("\\(\\mu\\) is the average click rate from historical tests. We assign a normal distribution as the prior:")),
+          title = "Example",
+          withMathJax(helpText("\\(\\mu\\) is the average profit across previous experiments (profit just has to be a continuous, normally distributed outcome). For the example data, we are using average click rate from historical tests. We assign a normal distribution as the prior for μ:")),
           withMathJax("$$\\mu \\sim \\mathcal{N}(0.5, 0.1)$$"),
           withMathJax(helpText("This is a moderately informative prior that assumes most websites have clickthrough rates roughly between 30-70% (within 2 SDs).")),
           options = list(trigger = 'focus')
@@ -113,9 +113,9 @@ were conducted across a wide variety of websites. Thus, this data can only provi
           switchInput(ns('omega_switch'), label = HTML("<strong>&omega; Prior</strong>"), value=TRUE, onLabel = 'YES', offLabel = 'NO'),
           popover(
             bsicons::bs_icon("question-circle", class='ms-auto'),
-            title = "Info",
-            withMathJax(helpText("\\(\\omega\\) is the captures the variation in mean response across experiments. Use this only if you believe each of your experiments have a different base click through rate. This could be from using tests from different parts of the website (click through is different at checkout vs. in the beginning) or from having click-through rates from different websites.")),  
-            markdown("We assign a normal distribution as the prior:"),
+            title = "Example",
+            withMathJax(helpText("\\(\\omega\\) captures the variation in mean profit across experiments. Use this only if you believe each of your experiments have a different mean profit. The example data is based off different experiments from different websites, so we need ω.")),  
+            markdown("We assign a normal distribution as the prior for ω:"),
             withMathJax("$$\\omega \\sim \\mathcal{N}(0, 0.1)$$"),
             options = list(trigger = 'focus')
           ), class = "d-flex align-items-center gap-1"),
@@ -293,7 +293,7 @@ priors_equal_server <- function(id, data) {
         layout(
           title = paste0("<b>Normal(", input$sigma_prior_mean_input, ", ", input$sigma_prior_sd_input, 
                          ") with σ > 0 Truncation</b>"),
-          xaxis = list(title = "σ (Standard Deviation)"),
+          xaxis = list(title = "σ (Standard Deviation μ between Test & Control)"),
           yaxis = list(title = "Density"),
           hovermode = "x unified",
           annotations = list(
@@ -332,7 +332,7 @@ priors_equal_server <- function(id, data) {
         layout(
           title = paste0("<b>Normal(", input$mu_prior_mean_input, ", ", input$mu_prior_sd_input, 
                          ")"),
-          xaxis = list(title = "σ (Standard Deviation)"),
+          xaxis = list(title = "μ (Mean Profit per Customer)"),
           yaxis = list(title = "Density"),
           hovermode = "x unified"
         )
@@ -395,7 +395,7 @@ priors_equal_server <- function(id, data) {
         layout(
           title = paste0("<b>Normal(", input$omega_prior_mean_input, ", ", input$omega_prior_sd_input, 
                          ") with σ > 0 Truncation</b>"),
-          xaxis = list(title = "σ (Standard Deviation)"),
+          xaxis = list(title = "ω (Standard Deviation of μ Between Experiments)"),
           yaxis = list(title = "Density"),
           hovermode = "x unified",
           annotations = list(

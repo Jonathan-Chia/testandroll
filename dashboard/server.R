@@ -260,7 +260,7 @@ server <- function(input, output, session) {
       ) %>%
       layout(
         title = "Bigger σ → Bigger Difference between A and B → Smaller Test",
-        xaxis = list(title = "Prior SD of Treatment Mean Profit (sigma)"),
+        xaxis = list(title = "Prior Standard Deviation of Treatment Mean Profit (σ)"),
         yaxis = list(title = "Profit-Maximizing Sample Size"),
         hovermode = "x unified"
       )
@@ -340,7 +340,7 @@ server <- function(input, output, session) {
       layout(
         title = "Expected Profit vs. Test Size",
         xaxis = list(title = "Test Size (n<sub>1</sub>=n<sub>2</sub>)"),
-        yaxis = list(title = "Expected Profit",
+        yaxis = list(title = "Expected Total Profit",
                      tickprefix = "$",
                      tickformat = ",",
                      range = c(profit_rdf()$profit_rand[1], profit_rdf()$profit_perfect[1])),
