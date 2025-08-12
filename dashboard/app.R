@@ -7,6 +7,7 @@ library(plotly)
 library(glue)
 library(tibble)
 library(dplyr)
+library(markdown)
 
 # Source the UI and server components
 source("dashboard/ui.R")

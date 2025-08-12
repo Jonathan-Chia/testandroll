@@ -4,6 +4,7 @@ library(bslib)
 library(bsicons)
 library(tibble)
 library(dplyr)
+library(markdown)
 
 source('priors/priors_equal_mu.R')
 
