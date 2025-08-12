@@ -7,6 +7,7 @@ library(dplyr)
 library(markdown)
 
 source('priors/priors_equal_mu.R')
+source('nn_functions.R')
 
 business_questions <- c(
   "Primary Goal: Main objective is to maximize expected profit (or another business KPI like revenue, conversions) rather than just statistical significance." = "Q1",
